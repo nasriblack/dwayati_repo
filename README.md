@@ -1,113 +1,84 @@
-# Dwayati Monorepo
+# Turborepo starter
 
-Dwayati is a **medication and prescription management app** built with a **monorepo architecture** using **Next.js, Hono, and React Native**. The goal is to create a seamless experience for users across web and mobile platforms, backed by a robust API.
+This Turborepo starter is maintained by the Turborepo core team.
 
-## 📝 Features
+## Using this example
 
-- As user i can view all medications
-- As user i can view all prescriptions
-- as user i can view the details of a medication
-- as user i can view the details of a prescription
-
-- As user i can create a new medication
-- As user i can create a new prescription
-
-- As user i can update a medication (is the medication still available)
-
-- As user i can assigne a medication to a prescription
-
-- As user i can view all prescriptions for a medication
-- As user i can view all medications for a prescription
-
-- as user i can filter the prescriptions by medication
-- as user i can filter the medications by prescription
-
-## 🚀 Tech Stack
-
-- **Next.js** - Landing Page
-- **Hono** - API
-- **React Native** - Mobile App
-- **TypeScript** - Strongly typed development
-- **Turborepo + pnpm** - Monorepo management
-- **NativeWind** - Tailwind CSS for React Native
-- **Zod** - Schema validation
-- **Expo Router** - Navigation for mobile
-- **WatermelonDB** - Offline-first database for mobile
-
----
-
-## 📂 Project Structure
-
-```
-dwayati-monorepo/
-│── apps/                  # Applications
-│   ├── api/               # Hono API
-│   ├── web/               # Next.js Landing Page
-│   ├── mobile/            # React Native App
-│
-│── packages/              # Shared packages
-│   ├── types/             # Shared TypeScript types
-│   ├── ui/                # (Optional) Shared UI components
-│
-│── .github/               # GitHub workflows
-│── .turbo/                # Turborepo cache
-│── package.json           # Root package.json
-│── turbo.json             # Turborepo config
-│── README.md              # Project documentation
-```
-
----
-
-## 📜 API Routes (Hono)
-
-| Method | Endpoint         | Description               |
-| ------ | ---------------- | ------------------------- |
-| GET    | `/medications`   | Fetch all medications     |
-| GET    | `/prescriptions` | Fetch all prescriptions   |
-| POST   | `/prescriptions` | Create a new prescription |
-
----
-
-Import example:
-
-```ts
-import { Prescription } from "@dwayati/types";
-```
-
----
-
-## 💡 Getting Started
-
-### 1️⃣ Install Dependencies
+Run the following command:
 
 ```sh
-pnpm install
+npx create-turbo@latest
 ```
 
-### 2️⃣ Run the Monorepo
+## What's inside?
 
-```sh
+This Turborepo includes the following packages/apps:
+
+### Apps and Packages
+
+- `docs`: a [Next.js](https://nextjs.org/) app
+- `web`: another [Next.js](https://nextjs.org/) app
+- `@repo/ui`: a stub React component library shared by both `web` and `docs` applications
+- `@repo/eslint-config`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
+- `@repo/typescript-config`: `tsconfig.json`s used throughout the monorepo
+
+Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
+
+### Utilities
+
+This Turborepo has some additional tools already setup for you:
+
+- [TypeScript](https://www.typescriptlang.org/) for static type checking
+- [ESLint](https://eslint.org/) for code linting
+- [Prettier](https://prettier.io) for code formatting
+
+### Build
+
+To build all apps and packages, run the following command:
+
+```
+cd my-turborepo
+pnpm build
+```
+
+### Develop
+
+To develop all apps and packages, run the following command:
+
+```
+cd my-turborepo
 pnpm dev
 ```
 
-This will start:
+### Remote Caching
 
-- **Next.js** (Landing Page)
-- **Hono** (API)
-- **React Native** (Mobile App)
+> [!TIP]
+> Vercel Remote Cache is free for all plans. Get started today at [vercel.com](https://vercel.com/signup?/signup?utm_source=remote-cache-sdk&utm_campaign=free_remote_cache).
 
-### 3️⃣ Run Mobile App Separately
+Turborepo can use a technique known as [Remote Caching](https://turbo.build/repo/docs/core-concepts/remote-caching) to share cache artifacts across machines, enabling you to share build caches with your team and CI/CD pipelines.
 
-```sh
-cd apps/mobile
-pnpm expo start
+By default, Turborepo will cache locally. To enable Remote Caching you will need an account with Vercel. If you don't have an account you can [create one](https://vercel.com/signup?utm_source=turborepo-examples), then enter the following commands:
+
+```
+cd my-turborepo
+npx turbo login
 ```
 
----
+This will authenticate the Turborepo CLI with your [Vercel account](https://vercel.com/docs/concepts/personal-accounts/overview).
 
-## ✅ Next Steps
+Next, you can link your Turborepo to your Remote Cache by running the following command from the root of your Turborepo:
 
-- **[ ] Define API Endpoints with Hono**
-- **[ ] Connect React Native to API**
-- **[ ] Set Up WatermelonDB for Offline Support**
-- **[ ] Write E2E Tests with Maestro**
+```
+npx turbo link
+```
+
+## Useful Links
+
+Learn more about the power of Turborepo:
+
+- [Tasks](https://turbo.build/repo/docs/core-concepts/monorepos/running-tasks)
+- [Caching](https://turbo.build/repo/docs/core-concepts/caching)
+- [Remote Caching](https://turbo.build/repo/docs/core-concepts/remote-caching)
+- [Filtering](https://turbo.build/repo/docs/core-concepts/monorepos/filtering)
+- [Configuration Options](https://turbo.build/repo/docs/reference/configuration)
+- [CLI Usage](https://turbo.build/repo/docs/reference/command-line-reference)
