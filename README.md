@@ -1,120 +1,32 @@
-# Dwayati Monorepo
+# Turborepo react-native starter
 
-Dwayati is a **medication and prescription management app** built with a **monorepo architecture** using **Next.js, Hono, and React Native**. The goal is to create a seamless experience for users across web and mobile platforms, backed by a robust API.
+This is a community-maintained example. If you experience a problem, please submit a pull request with a fix. GitHub Issues will be closed.
 
+## Using this example
 
-## 📝 Features
-
-- As user i can view all medications
-- As user i can view all prescriptions
-- as user i can view the details of a medication
-- as user i can view the details of a prescription
-
-- As user i can create a new medication
-- As user i can create a new prescription
-
-- As user i can update a medication (is the medication still available)
-
-- As user i can assigne a medication to a prescription
-
-- As user i can view all prescriptions for a medication
-- As user i can view all medications for a prescription
-
-- as user i can filter the prescriptions by medication
-- as user i can filter the medications by prescription
-
-
-
-
-
-## 🚀 Tech Stack
-
-- **Next.js** - Landing Page
-- **Hono** - API
-- **React Native** - Mobile App
-- **TypeScript** - Strongly typed development
-- **Turborepo + pnpm** - Monorepo management
-- **NativeWind** - Tailwind CSS for React Native
-- **Zod** - Schema validation
-- **Expo Router** - Navigation for mobile
-- **WatermelonDB** - Offline-first database for mobile
-
----
-
-## 📂 Project Structure
-
-```
-dwayati-monorepo/
-│── apps/                  # Applications  
-│   ├── api/               # Hono API  
-│   ├── web/               # Next.js Landing Page  
-│   ├── mobile/            # React Native App  
-│  
-│── packages/              # Shared packages  
-│   ├── types/             # Shared TypeScript types  
-│   ├── ui/                # (Optional) Shared UI components  
-│  
-│── .github/               # GitHub workflows  
-│── .turbo/                # Turborepo cache  
-│── package.json           # Root package.json  
-│── turbo.json             # Turborepo config  
-│── README.md              # Project documentation  
-```
-
----
-
-## 📜 API Routes (Hono)
-
-| Method | Endpoint         | Description               |
-| ------ | ---------------- | ------------------------- |
-| GET    | `/medications`   | Fetch all medications     |
-| GET    | `/prescriptions` | Fetch all prescriptions   |
-| POST   | `/prescriptions` | Create a new prescription |
-
----
-
-Import example:
-
-```ts
-import { Prescription } from "@dwayati/types";
-```
-
----
-
-## 💡 Getting Started
-
-### 1️⃣ Install Dependencies
+Run the following command:
 
 ```sh
-pnpm install
+npx create-turbo@latest -e with-react-native-web
 ```
 
-### 2️⃣ Run the Monorepo
+## What's inside?
 
-```sh
-pnpm dev
-```
+This Turborepo includes the following packages/apps:
 
-This will start:
+### Apps and Packages
 
-- **Next.js** (Landing Page)
-- **Hono** (API)
-- **React Native** (Mobile App)
+- `native`: a [react-native](https://reactnative.dev/) app built with [expo](https://docs.expo.dev/)
+- `web`: a [Next.js](https://nextjs.org/) app built with [react-native-web](https://necolas.github.io/react-native-web/)
+- `@repo/ui`: a stub [react-native](https://reactnative.dev/) component library shared by both `web` and `native` applications
+- `@repo/typescript-config`: `tsconfig.json`s used throughout the monorepo
 
-### 3️⃣ Run Mobile App Separately
+Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
 
-```sh
-cd apps/mobile
-pnpm expo start
-```
+### Utilities
 
----
+This Turborepo has some additional tools already setup for you:
 
-## ✅ Next Steps
-
-- **[ ] Define API Endpoints with Hono**
-- **[ ] Connect React Native to API**
-- **[ ] Set Up WatermelonDB for Offline Support**
-- **[ ] Write E2E Tests with Maestro**
-
-
+- [Expo](https://docs.expo.dev/) for native development
+- [TypeScript](https://www.typescriptlang.org/) for static type checking
+- [Prettier](https://prettier.io) for code formatting
