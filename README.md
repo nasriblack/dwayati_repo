@@ -1,6 +1,6 @@
 # Dwayati Monorepo
 
-Dwayati is a **medication and prescription management app** built with a **monorepo architecture** using **Next.js, NestJS, and React Native**. The goal is to create a seamless experience for users across web and mobile platforms, backed by a robust API.
+Dwayati is a **medication and prescription management app** built with a **monorepo architecture** using **Next.js, Hono, and React Native**. The goal is to create a seamless experience for users across web and mobile platforms, backed by a robust API.
 
 
 ## 📝 Features
@@ -30,7 +30,7 @@ Dwayati is a **medication and prescription management app** built with a **monor
 ## 🚀 Tech Stack
 
 - **Next.js** - Landing Page
-- **NestJS** - API
+- **Hono** - API
 - **React Native** - Mobile App
 - **TypeScript** - Strongly typed development
 - **Turborepo + pnpm** - Monorepo management
@@ -46,7 +46,7 @@ Dwayati is a **medication and prescription management app** built with a **monor
 ```
 dwayati-monorepo/
 │── apps/                  # Applications  
-│   ├── api/               # NestJS API  
+│   ├── api/               # Hono API  
 │   ├── web/               # Next.js Landing Page  
 │   ├── mobile/            # React Native App  
 │  
@@ -63,7 +63,7 @@ dwayati-monorepo/
 
 ---
 
-## 📜 API Routes (NestJS)
+## 📜 API Routes (Hono)
 
 | Method | Endpoint         | Description               |
 | ------ | ---------------- | ------------------------- |
@@ -98,7 +98,7 @@ pnpm dev
 This will start:
 
 - **Next.js** (Landing Page)
-- **NestJS** (API)
+- **Hono** (API)
 - **React Native** (Mobile App)
 
 ### 3️⃣ Run Mobile App Separately
@@ -112,7 +112,7 @@ pnpm expo start
 
 ## ✅ Next Steps
 
-- **[ ] Define API Endpoints with NestJS**
+- **[ ] Define API Endpoints with Hono**
 - **[ ] Connect React Native to API**
 - **[ ] Set Up WatermelonDB for Offline Support**
 - **[ ] Write E2E Tests with Maestro**
