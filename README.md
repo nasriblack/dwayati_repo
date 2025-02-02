@@ -2,7 +2,6 @@
 
 Dwayati is a **medication and prescription management app** built with a **monorepo architecture** using **Next.js, Hono, and React Native**. The goal is to create a seamless experience for users across web and mobile platforms, backed by a robust API.
 
-
 ## 📝 Features
 
 - As user i can view all medications
@@ -23,10 +22,6 @@ Dwayati is a **medication and prescription management app** built with a **monor
 - as user i can filter the prescriptions by medication
 - as user i can filter the medications by prescription
 
-
-
-
-
 ## 🚀 Tech Stack
 
 - **Next.js** - Landing Page
@@ -45,20 +40,20 @@ Dwayati is a **medication and prescription management app** built with a **monor
 
 ```
 dwayati-monorepo/
-│── apps/                  # Applications  
-│   ├── api/               # Hono API  
-│   ├── web/               # Next.js Landing Page  
-│   ├── mobile/            # React Native App  
-│  
-│── packages/              # Shared packages  
-│   ├── types/             # Shared TypeScript types  
-│   ├── ui/                # (Optional) Shared UI components  
-│  
-│── .github/               # GitHub workflows  
-│── .turbo/                # Turborepo cache  
-│── package.json           # Root package.json  
-│── turbo.json             # Turborepo config  
-│── README.md              # Project documentation  
+│── apps/                  # Applications
+│   ├── api/               # Hono API
+│   ├── web/               # Next.js Landing Page
+│   ├── mobile/            # React Native App
+│
+│── packages/              # Shared packages
+│   ├── types/             # Shared TypeScript types
+│   ├── ui/                # (Optional) Shared UI components
+│
+│── .github/               # GitHub workflows
+│── .turbo/                # Turborepo cache
+│── package.json           # Root package.json
+│── turbo.json             # Turborepo config
+│── README.md              # Project documentation
 ```
 
 ---
@@ -116,5 +111,3 @@ pnpm expo start
 - **[ ] Connect React Native to API**
 - **[ ] Set Up WatermelonDB for Offline Support**
 - **[ ] Write E2E Tests with Maestro**
-
-
