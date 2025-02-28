@@ -1,8 +1,19 @@
+@import "tailwindcss";
+
+
+@theme {
+  --color-mint-500: oklch(0.72 0.11 178);
+}
+
+*{
+  box-sizing: border-box;
+
+}
 body {
   font-family: "SF Pro Text", "SF Pro Icons", "Helvetica Neue", "Helvetica",
     "Arial", sans-serif;
   display: flex;
-  height: 100vh;
+  height: 100%;
   align-items: center;
   justify-content: center;
 }
