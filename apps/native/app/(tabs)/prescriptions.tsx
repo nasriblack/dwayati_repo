@@ -19,7 +19,7 @@ export default function PrescriptionsScreen() {
       </View>
 
       <ScrollView style={styles.content}>
-        {[1, 2, 3].map((index) => (
+        {[1, 2, 3, 4, 5, 6, 7].map((index) => (
           <TouchableOpacity key={index} style={styles.prescriptionCard}>
             <View style={styles.prescriptionHeader}>
               <View style={styles.dateContainer}>

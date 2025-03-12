@@ -12,6 +12,18 @@ import { Search as SearchIcon, Pill, ClipboardList } from 'lucide-react-native';
 
 export default function SearchScreen() {
   const [searchQuery, setSearchQuery] = useState('');
+  const [selectedItem, setSelectedItem] = useState('medications');
+
+  const itemsTab = [
+    {
+      tabName: 'medications',
+      icon: <Pill size={20} color="#fff" />,
+    },
+    {
+      tabName: 'prescriptions',
+      icon: <ClipboardList size={20} color="#fff" />,
+    },
+  ];
 
   return (
     <LinearGradient colors={['#1a1b1e', '#2d2e32']} style={styles.container}>
@@ -31,16 +43,34 @@ export default function SearchScreen() {
       </View>
 
       <View style={styles.filterContainer}>
-        <TouchableOpacity style={[styles.filterButton, styles.activeFilter]}>
-          <Pill size={20} color="#fff" />
-          <Text style={[styles.filterText, styles.activeFilterText]}>
-            Medications
-          </Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.filterButton}>
-          <ClipboardList size={20} color="#666" />
-          <Text style={styles.filterText}>Prescriptions</Text>
-        </TouchableOpacity>
+        {itemsTab.map((item) => {
+          const isTabActive = selectedItem === item.tabName;
+          //TODO: MAKE A FUNCTION THAT RETURN THE ICON BASED ON THE TAB NAME !
+          return (
+            <TouchableOpacity
+              style={
+                isTabActive
+                  ? [styles.filterButton, styles.activeFilter]
+                  : [styles.filterButton]
+              }
+              key={item.tabName}
+              onPress={() => {
+                setSelectedItem(item.tabName);
+              }}
+            >
+              {item.icon}
+              <Text
+                style={
+                  isTabActive
+                    ? [styles.filterText, styles.activeFilterText]
+                    : [styles.activeFilterText]
+                }
+              >
+                {item.tabName}
+              </Text>
+            </TouchableOpacity>
+          );
+        })}
       </View>
 
       <ScrollView style={styles.content}>
@@ -88,6 +118,7 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontFamily: 'Inter_400Regular',
     fontSize: 16,
+    borderWidth: 0,
   },
   filterContainer: {
     flexDirection: 'row',
