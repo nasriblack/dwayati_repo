@@ -46,15 +46,41 @@ export const getPrescription = async (
     });
 };
 
-export const createPrescription = async (
-    prescription: any
-): Promise<TListPrescription> => {
+// export const createPrescription = async (
+//     prescription: any
+// ): Promise<TListPrescription> => {
+//     return prismaClient.prescription.create({
+//         data: {
+//             doctorName: prescription.doctorName,
+//             description: prescription.description,
+//             medications: {
+//                 create: prescription.medications, // Explicitly create medications
+//             },
+//         },
+//         select: {
+//             id: true,
+//             createdAt: true,
+//             description: true,
+//             doctorName: true,
+//             medications: {
+//                 select: {
+//                     id: true,
+//                     description: true,
+//                     expirationDate: true,
+//                     tag: true,
+//                 },
+//             },
+//         },
+//     });
+// };
+
+export const createPrescription = async (prescription: any): Promise<TListPrescription> => {
     return prismaClient.prescription.create({
         data: {
             doctorName: prescription.doctorName,
             description: prescription.description,
             medications: {
-                create: prescription.medications, // Explicitly create medications
+                connect: prescription.medications
             },
         },
         select: {
@@ -68,11 +94,14 @@ export const createPrescription = async (
                     description: true,
                     expirationDate: true,
                     tag: true,
-                },
-            },
-        },
+                }
+            }
+        }
     });
 };
+
+// TO SEND THE WHOLE BODY WE USE CREATE FUNCTION , WHEN WE USING JUST THE ID WE USE CONNECT
+
 
 export const deletePrescription = async (id: string): Promise<void> => {
     await prismaClient.prescription.delete({
