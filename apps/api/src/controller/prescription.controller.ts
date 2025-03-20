@@ -3,6 +3,7 @@ import { NextFunction, Response, Request } from "express";
 
 import * as PrescriptionService from '../services/prescription.service'
 import HttpStatusCode from '../utils/HttpStatusCode';
+import { prescriptionSchema } from '../types/zod';
 
 export const listPrescription = async (reques:Request, response:Response,next:NextFunction) => {
     try {
@@ -33,6 +34,16 @@ export const createPrescription = async (request:Request, response:Response,next
         const newPrescription = await PrescriptionService.createPrescription(prescriptionPayload)
         return sendSuccessResponse(response,newPrescription,HttpStatusCode.CREATED)
 
+    } catch (error) {
+        next(error)
+    }
+}
+
+export const validatePrescriptionData = (request:Request, response:Response, next:NextFunction) => {
+    try {
+        const payloadPrescription = request.body;
+        prescriptionSchema.parse(payloadPrescription)
+        next()
     } catch (error) {
         next(error)
     }

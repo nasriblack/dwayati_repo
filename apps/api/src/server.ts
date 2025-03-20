@@ -3,6 +3,7 @@ import express, { type Express } from "express";
 import morgan from "morgan";
 import cors from "cors";
 import PrescriptionRouter from './routes/prescription.routes'
+import { errorHandler } from "./middleware/error-handler";
 
 export const createServer = (): Express => {
   const app = express();
@@ -12,6 +13,8 @@ export const createServer = (): Express => {
   app.use(json())
   app.use(cors())
   app.use('/api/v1', PrescriptionRouter)
+
+  app.use(errorHandler);
   // app
   //   .disable("x-powered-by")
   //   .use(morgan("dev"))
