@@ -8,7 +8,7 @@ export const listMedications = async (): Promise<IMedication[]> => {
       description: true,
       expirationDate: true,
       tag: true,
-      name:true,
+      name: true,
       prescription: {
         select: {
           createdAt: true,
@@ -28,7 +28,7 @@ export const createMedication = async (
       expirationDate: medication.expirationDate,
       description: medication.description,
       tag: medication.tag,
-      name:medication.name,
+      name: medication.name,
       prescription: {
         connect: medication.prescriptions,
       },
@@ -38,12 +38,50 @@ export const createMedication = async (
       expirationDate: true,
       tag: true,
       id: true,
-      name:true,
+      name: true,
       prescription: {
         select: {
           doctorName: true,
           createdAt: true,
           description: true,
+        },
+      },
+    },
+  });
+};
+
+export const getMedication = async (medicationName: string): Promise<any> => {
+  return prismaClient.medication.findUnique({
+    where: {
+      name: medicationName,
+    },
+  });
+};
+
+export const updateMedication = async (
+  medication: any,
+  id: string
+): Promise<IMedication> => {
+  return prismaClient.medication.update({
+    where: {
+      id,
+    },
+    data: {
+      description: medication.description,
+      expirationDate: medication.expirationDate,
+      tag: medication.tag,
+    },
+    select: {
+      description: true,
+      id: true,
+      expirationDate: true,
+      name: true,
+      tag: true,
+      prescription: {
+        select: {
+          createdAt: true,
+          description: true,
+          doctorName: true,
         },
       },
     },
