@@ -22,10 +22,9 @@ model Prescription {
 }
 
 model Medication {
-  id             String        @id @default(uuid())
+  id             String         @id @default(uuid())
   description    String?
   expirationDate DateTime
   tag            String?
-  prescription   Prescription? @relation(fields: [prescriptionId], references: [id])
-  prescriptionId String?
+  prescription   Prescription[]
 }
