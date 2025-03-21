@@ -4,6 +4,7 @@ import morgan from "morgan";
 import cors from "cors";
 import PrescriptionRouter from './routes/prescription.routes'
 import { errorHandler } from "./middleware/error-handler";
+import medciationRouter from "./routes/medication.routes";
 
 export const createServer = (): Express => {
   const app = express();
@@ -13,6 +14,7 @@ export const createServer = (): Express => {
   app.use(json())
   app.use(cors())
   app.use('/api/v1', PrescriptionRouter)
+  app.use('/api/v1', medciationRouter)
 
   app.use(errorHandler);
   // app

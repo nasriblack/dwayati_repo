@@ -23,6 +23,7 @@ model Prescription {
 
 model Medication {
   id             String         @id @default(uuid())
+  // name           String         @unique()
   description    String?
   expirationDate DateTime
   tag            String?
