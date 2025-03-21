@@ -19,11 +19,13 @@ async function main() {
       medications: {
         create: [
           {
+            name: 'Paracetamol',
             description: 'Paracetamol 500mg',
             expirationDate: new Date('2025-12-31'),
             tag: 'Pain Relief',
           },
           {
+            name: 'Ibuprofen',
             description: 'Ibuprofen 200mg',
             expirationDate: new Date('2024-10-15'),
             tag: 'Anti-inflammatory',
@@ -40,6 +42,7 @@ async function main() {
       medications: {
         create: [
           {
+            name: 'Loratadine',
             description: 'Loratadine 10mg',
             expirationDate: new Date('2026-06-30'),
             tag: 'Antihistamine',
@@ -52,6 +55,7 @@ async function main() {
   // Creating a medication that belongs to multiple prescriptions
   const sharedMedication = await prisma.medication.create({
     data: {
+      name: 'Aspirin',
       description: 'Aspirin 100mg',
       expirationDate: new Date('2025-09-10'),
       tag: 'Blood Thinner',

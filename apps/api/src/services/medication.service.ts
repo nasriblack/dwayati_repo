@@ -8,6 +8,7 @@ export const listMedications = async (): Promise<IMedication[]> => {
       description: true,
       expirationDate: true,
       tag: true,
+      name:true,
       prescription: {
         select: {
           createdAt: true,
@@ -27,6 +28,7 @@ export const createMedication = async (
       expirationDate: medication.expirationDate,
       description: medication.description,
       tag: medication.tag,
+      name:medication.name,
       prescription: {
         connect: medication.prescriptions,
       },
@@ -36,6 +38,7 @@ export const createMedication = async (
       expirationDate: true,
       tag: true,
       id: true,
+      name:true,
       prescription: {
         select: {
           doctorName: true,
