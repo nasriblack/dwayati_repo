@@ -111,3 +111,9 @@ pnpm expo start
 - **[ ] Connect React Native to API**
 - **[ ] Set Up WatermelonDB for Offline Support**
 - **[ ] Write E2E Tests with Maestro**
+
+
+## Issue 
+<p>
+If you're getting errors with npx prisma generate or migrate, close all running Prisma processes (e.g., Prisma Studio, Docker containers, or your app). Stop everything, then rerun the command, and it should work fine.
+</p>
