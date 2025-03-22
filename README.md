@@ -1,6 +1,6 @@
 # Dwayati Monorepo
 
-Dwayati is a **medication and prescription management app** built with a **monorepo architecture** using **Next.js, Hono, and React Native**. The goal is to create a seamless experience for users across web and mobile platforms, backed by a robust API.
+Dwayati is a **medication and prescription management app** built with a **monorepo architecture** using **Next.js, Express, and React Native**. The goal is to create a seamless experience for users across web and mobile platforms, backed by a robust API.
 
 ## 📝 Features
 
@@ -41,7 +41,7 @@ Dwayati is a **medication and prescription management app** built with a **monor
 ```
 dwayati-monorepo/
 │── apps/                  # Applications
-│   ├── api/               # Hono API
+│   ├── api/               # Express API
 │   ├── web/               # Next.js Landing Page
 │   ├── mobile/            # React Native App
 │
