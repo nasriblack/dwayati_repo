@@ -25,7 +25,7 @@ Dwayati is a **medication and prescription management app** built with a **monor
 ## 🚀 Tech Stack
 
 - **Next.js** - Landing Page
-- **Hono** - API
+- **Express** - API
 - **React Native** - Mobile App
 - **TypeScript** - Strongly typed development
 - **Turborepo + pnpm** - Monorepo management
@@ -48,6 +48,7 @@ dwayati-monorepo/
 │── packages/              # Shared packages
 │   ├── types/             # Shared TypeScript types
 │   ├── ui/                # (Optional) Shared UI components
+│   ├── typescript-config/ # Shared config of typescript
 │
 │── .github/               # GitHub workflows
 │── .turbo/                # Turborepo cache
@@ -58,13 +59,17 @@ dwayati-monorepo/
 
 ---
 
-## 📜 API Routes (Hono)
+## 📜 API Routes (Express)
 
-| Method | Endpoint         | Description               |
-| ------ | ---------------- | ------------------------- |
-| GET    | `/medications`   | Fetch all medications     |
-| GET    | `/prescriptions` | Fetch all prescriptions   |
-| POST   | `/prescriptions` | Create a new prescription |
+# /api/v1
+
+| Method | Endpoint             | Description               |
+| ------ | ----------------     | ------------------------- |
+| GET    | `/all-prescription`  | Fetch all prescriptions   |
+| GET    | `/all-medications`   | Fetch all medications     |
+| POST   | `/prescription`      | Create a new prescription |
+| POST   | `/medication`        | Create a new medication   |
+| PUT    | `/medication/:id`    | Update existing medication|
 
 ---
 
@@ -93,7 +98,7 @@ pnpm dev
 This will start:
 
 - **Next.js** (Landing Page)
-- **Hono** (API)
+- **Express** (API)
 - **React Native** (Mobile App)
 
 ### 3️⃣ Run Mobile App Separately
@@ -107,13 +112,35 @@ pnpm expo start
 
 ## ✅ Next Steps
 
-- **[ ] Define API Endpoints with Hono**
+- **[X] Define API Endpoints with Express**
+- **[ ] Write tests for api**
 - **[ ] Connect React Native to API**
 - **[ ] Set Up WatermelonDB for Offline Support**
 - **[ ] Write E2E Tests with Maestro**
 
+## Issues
 
-## Issue 
-<p>
-If you're getting errors with npx prisma generate or migrate, close all running Prisma processes (e.g., Prisma Studio, Docker containers, or your app). Stop everything, then rerun the command, and it should work fine.
-</p>
+### Prisma Generate/Migrate Error
+If you're encountering errors while running `npx prisma generate` or `npx prisma migrate`, it's often due to conflicts with running Prisma processes. 
+
+#### Solution:
+1. Close all running Prisma processes:
+   - Prisma Studio
+   - Any running Docker containers related to Prisma
+   - Your running application (if it uses Prisma)
+2. Restart your terminal and rerun the command.
+
+
+## GitHub Resources
+
+### Useful Repositories
+Here are some GitHub repositories that were helpful during development:
+
+- **[prisma/prisma](https://github.dev/YounesseElkars/Express-Prisma-TypeScript/blob/main/prisma/schema.prisma)**: Helped me to implement the structure of the api , prisma , and seeding the prisma data , ( it got auth , 3 models , zod , httpStatuscode)
+- **[node-express-prisma-auth](https://github.com/gothinkster/node-express-prisma-v1-official-app)**
+- **[ecommerce-api](https://github.dev/OmkarK45/ecommerce-backend-ts-pgsql/blob/main/src/validation/index.ts)**: e commerce api , auth middleware , prisma , validation using yup
+- **[good example for auth](https://github.com/sushantrahate/express-typescript-prisma-postgresql/blob/main/src/middleware/validation.middleware.ts)**
+- **[express-ts-prisma-pg template](https://github.com/henzyd/ts-express-prisma-pg-template/blob/main/src/controllers/auth.ts)**
+- **[express-ts-prisma-started include middleware with permissions](https://github.com/LuchoBazz/express-ts-rest-starter-kit/blob/main/prisma/schema.prisma)**
+
+These resources were instrumental in solving various challenges and improving the project's overall structure.
