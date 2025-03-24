@@ -5,6 +5,7 @@ import cors from "cors";
 import PrescriptionRouter from "./routes/prescription.routes";
 import { errorHandler } from "./middleware/error-handler";
 import medciationRouter from "./routes/medication.routes";
+import { endPoint } from "./utils/endPoint";
 
 export const createServer = (): Express => {
   const app = express();
@@ -22,7 +23,7 @@ export const createServer = (): Express => {
     .use(urlencoded({ extended: true }))
     .use(json())
     .use(cors())
-    .get("/status", (_, res: any) => {
+    .get(endPoint.otherEndPoint.CHECK_STATUS_TEST, (_, res: any) => {
       return res.json({ ok: true });
     });
   app.use(errorHandler);
