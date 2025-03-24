@@ -7,7 +7,8 @@
       "rootDir": "./src"
     },
     
-    "exclude": ["node_modules"],
+    "exclude": ["node_modules","__tests__"],
+    "types": ["node", "jest"],  // <-- Add "jest" here
     "include": ["src"]
   }
   
