@@ -13,3 +13,5 @@ export const endPoint = {
     CHECK_STATUS_TEST: "/status",
   },
 };
+
+export const apiVersion = "/api/v1";
