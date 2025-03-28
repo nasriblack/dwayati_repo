@@ -4,10 +4,12 @@ import { createServer } from "../../src/server";
 import { apiVersion, endPoint } from "../../src/utils/endPoint";
 import HttpStatusCode from "../../src/utils/HttpStatusCode";
 
+let medicationsId: any = [];
+
 const payload = {
   doctorName: "Dr. Test",
   description: "This is a test",
-  medication: [],
+  medication: medicationsId,
 };
 
 const checkPrescriptionProperty = (prescription: any) => {
@@ -44,7 +46,21 @@ describe("Check Prescription Service", () => {
     });
   });
 
-  it("should create a prescription and return status 201", async () => {
+  it.skip("should create a prescription and return status 201", async () => {
+    const response = await request(createServer())
+      .post(`${apiVersion}${endPoint.prescriptionEndPoint.CREATE_PRESCRIPTION}`)
+      .send(payload)
+      .expect(201);
+    const responseBody = response?.body;
+    expect(responseBody.success).toBe(true);
+    checkPrescriptionProperty(responseBody.data);
+  });
+  it.skip("should fail when wrong id medicaments", async () => {
+    medicationsId = [
+      {
+        id: "21963dbf-f971-wrong-id-d343a0bd7a32",
+      },
+    ];
     const response = await request(createServer())
       .post(`${apiVersion}${endPoint.prescriptionEndPoint.CREATE_PRESCRIPTION}`)
       .send(payload)

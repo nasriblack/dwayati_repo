@@ -12,6 +12,7 @@ medciationRouter.post(
   endPoint.medicationEndPoint.CREATE_MEDICATION,
   medicationController.checkExistingMedication,
   medicationController.validateMedicationData,
+  medicationController.checkingExistingPrescription,
   medicationController.createMedication
 );
 

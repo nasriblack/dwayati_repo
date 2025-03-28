@@ -30,7 +30,7 @@ export const createMedication = async (
       tag: medication.tag,
       name: medication.name,
       prescription: {
-        connect: medication.prescriptions,
+        connect: medication.prescription,
       },
     },
     select: {

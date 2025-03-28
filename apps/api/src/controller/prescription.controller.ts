@@ -30,7 +30,7 @@ export const checkExistingPrescription = async (
     const id = request.params.id;
     const existingPrescription = await PrescriptionService.getPrescription(id);
     if (!existingPrescription) {
-      return sendNotFoundResponse(response, "Book Not Found");
+      return sendNotFoundResponse(response, "Prescription Not Found");
     }
     next();
   } catch (error) {

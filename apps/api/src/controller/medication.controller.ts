@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import * as medicationService from "../services/medication.service";
+import * as PrescriptionService from "../services/prescription.service";
 import {
   sendNotFoundResponse,
   sendSuccessResponse,
@@ -55,6 +56,30 @@ export const checkExistingMedication = async (
   }
 };
 
+export const checkingExistingPrescription = async (
+  request: Request,
+  response: Response,
+  next: NextFunction
+): Promise<any> => {
+  try {
+    const prescriptionId = request.body.prescription;
+    if (!prescriptionId) {
+      next();
+    }
+    for (const element of prescriptionId) {
+      const checkExistingPrescription =
+        await PrescriptionService.getPrescription(element.id);
+      if (!checkExistingPrescription) {
+        return sendNotFoundResponse(response, "Medication Not Found");
+      }
+    }
+
+    next();
+  } catch (error) {
+    next(error);
+  }
+};
+
 export const validateMedicationData = (
   request: Request,
   response: Response,
@@ -82,7 +107,6 @@ export const updateMedication = async (
       id
     );
 
-    console.log("checking the object here", updateMedicationData);
     return sendSuccessResponse(response, updateMedicationData);
   } catch (error) {
     next(error);
