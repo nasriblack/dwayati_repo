@@ -5,6 +5,7 @@ import {
 import { NextFunction, Response, Request } from "express";
 
 import * as PrescriptionService from "../services/prescription.service";
+import * as MedicationService from "../services/medication.service";
 import HttpStatusCode from "../utils/HttpStatusCode";
 import { prescriptionSchema } from "../types/zod";
 
@@ -32,6 +33,31 @@ export const checkExistingPrescription = async (
     if (!existingPrescription) {
       return sendNotFoundResponse(response, "Prescription Not Found");
     }
+    next();
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const checkExistingMedication = async (
+  request: Request,
+  response: Response,
+  next: NextFunction
+): Promise<any> => {
+  try {
+    const medicationId = request.body.medications;
+    if (!medicationId) {
+      next();
+    }
+    for (const element of medicationId) {
+      const checkExistingMedication = await MedicationService.getMedicationById(
+        element.id
+      );
+      if (!checkExistingMedication) {
+        return sendNotFoundResponse(response, "Medication Not Found");
+      }
+    }
+
     next();
   } catch (error) {
     next(error);

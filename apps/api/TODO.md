@@ -10,10 +10,10 @@
 
 ### PRESCRIPTION
 
-- [ ] get all prescription with medications 
-- [ ] delete a prescription 
-- [ ] add a prescription
-    - [ ] without medications
-    - [ ] with falsy medication id
-    - [ ] with truthy medication id
+- [X] get all prescription with medications 
+- [X] delete a prescription 
+- [X] add a prescription
+    - [X] without medications
+    - [X] with falsy medication id
+    - [X] with truthy medication id
 

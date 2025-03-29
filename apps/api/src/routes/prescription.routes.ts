@@ -15,6 +15,7 @@ prescriptionRouter.delete(
 prescriptionRouter.post(
   endPoint.prescriptionEndPoint.CREATE_PRESCRIPTION,
   PrescriptionController.validatePrescriptionData,
+  PrescriptionController.checkExistingMedication,
   PrescriptionController.createPrescription
 );
 

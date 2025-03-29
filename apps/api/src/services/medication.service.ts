@@ -57,6 +57,13 @@ export const getMedication = async (medicationName: string): Promise<any> => {
     },
   });
 };
+export const getMedicationById = async (medicationId: string): Promise<any> => {
+  return prismaClient.medication.findUnique({
+    where: {
+      id: medicationId,
+    },
+  });
+};
 
 export const updateMedication = async (
   medication: any,
