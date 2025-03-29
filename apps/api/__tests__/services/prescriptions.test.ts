@@ -45,28 +45,4 @@ describe("Check Prescription Service", () => {
       checkPrescriptionProperty(prescription);
     });
   });
-
-  it.skip("should create a prescription and return status 201", async () => {
-    const response = await request(createServer())
-      .post(`${apiVersion}${endPoint.prescriptionEndPoint.CREATE_PRESCRIPTION}`)
-      .send(payload)
-      .expect(201);
-    const responseBody = response?.body;
-    expect(responseBody.success).toBe(true);
-    checkPrescriptionProperty(responseBody.data);
-  });
-  it.skip("should fail when wrong id medicaments", async () => {
-    medicationsId = [
-      {
-        id: "21963dbf-f971-wrong-id-d343a0bd7a32",
-      },
-    ];
-    const response = await request(createServer())
-      .post(`${apiVersion}${endPoint.prescriptionEndPoint.CREATE_PRESCRIPTION}`)
-      .send(payload)
-      .expect(201);
-    const responseBody = response?.body;
-    expect(responseBody.success).toBe(true);
-    checkPrescriptionProperty(responseBody.data);
-  });
 });

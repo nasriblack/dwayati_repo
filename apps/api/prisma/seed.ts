@@ -1,34 +1,34 @@
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
 async function main() {
-  console.log('Resetting database...');
+  console.log("Resetting database...");
 
   // Delete all records from both tables
   await prisma.medication.deleteMany();
   await prisma.prescription.deleteMany();
 
-  console.log('Database cleared! Seeding new data...');
+  console.log("Database cleared! Seeding new data...");
 
   // Create prescriptions
   const prescription1 = await prisma.prescription.create({
     data: {
-      doctorName: 'Dr. John Doe',
-      description: 'Flu treatment prescription',
+      doctorName: "Dr. John Doe",
+      description: "Flu treatment prescription",
       medications: {
         create: [
           {
-            name: 'Paracetamol',
-            description: 'Paracetamol 500mg',
-            expirationDate: new Date('2025-12-31'),
-            tag: 'Pain Relief',
+            name: "Paracetamol",
+            description: "Paracetamol 500mg",
+            expirationDate: new Date("2025-12-31"),
+            tag: "Pain Relief",
           },
           {
-            name: 'Ibuprofen',
-            description: 'Ibuprofen 200mg',
-            expirationDate: new Date('2024-10-15'),
-            tag: 'Anti-inflammatory',
+            name: "Ibuprofen",
+            description: "Ibuprofen 200mg",
+            expirationDate: new Date("2024-10-15"),
+            tag: "Anti-inflammatory",
           },
         ],
       },
@@ -37,15 +37,15 @@ async function main() {
 
   const prescription2 = await prisma.prescription.create({
     data: {
-      doctorName: 'Dr. Alice Smith',
-      description: 'Allergy prescription',
+      doctorName: "Dr. Alice Smith",
+      description: "Allergy prescription",
       medications: {
         create: [
           {
-            name: 'Loratadine',
-            description: 'Loratadine 10mg',
-            expirationDate: new Date('2026-06-30'),
-            tag: 'Antihistamine',
+            name: "Loratadine",
+            description: "Loratadine 10mg",
+            expirationDate: new Date("2026-06-30"),
+            tag: "Antihistamine",
           },
         ],
       },
@@ -55,10 +55,10 @@ async function main() {
   // Creating a medication that belongs to multiple prescriptions
   const sharedMedication = await prisma.medication.create({
     data: {
-      name: 'Aspirin',
-      description: 'Aspirin 100mg',
-      expirationDate: new Date('2025-09-10'),
-      tag: 'Blood Thinner',
+      name: "Aspirin",
+      description: "Aspirin 100mg",
+      expirationDate: new Date("2025-09-10"),
+      tag: "Blood Thinner",
       prescription: {
         connect: [{ id: prescription1.id }, { id: prescription2.id }],
       },

@@ -8,11 +8,12 @@
     "dev": "nodemon --exec \"node -r esbuild-register ./src/index.ts\" -e .ts",
     "lint": "tsc --noEmit && eslint \"src/**/*.ts*\" --max-warnings 0",
     "start": "node -r esbuild-register ./src/index.ts",
-    "test": "jest -i --detectOpenHandles --watch",
+    "test": "pnpm run prisma:clean_database && jest -i --detectOpenHandles --watch",
     "prisma:studio": "prisma studio",
     "prisma:generate": "prisma generate",
     "prisma:generate:watch": "prisma generate --watch",
-    "prisma:seed": "ts-node prisma/seed.ts"
+    "prisma:seed": "ts-node prisma/seed.ts",
+    "prisma:clean_database": "ts-node prisma/cleanDatabase.ts"
   },
   "author": "LAKHAL NASEREDDINE",
   "dependencies": {
