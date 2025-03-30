@@ -6,6 +6,7 @@ import PrescriptionRouter from "./routes/prescription.routes";
 import { errorHandler } from "./middleware/error-handler";
 import medciationRouter from "./routes/medication.routes";
 import { apiVersion, endPoint } from "./utils/endPoint";
+import { notFoundHandler } from "./middleware/not-found";
 
 export const createServer = (): Express => {
   const app = express();
@@ -27,6 +28,7 @@ export const createServer = (): Express => {
       return res.json({ ok: true });
     });
   app.use(errorHandler);
+  app.use(notFoundHandler);
 
   return app;
 };
