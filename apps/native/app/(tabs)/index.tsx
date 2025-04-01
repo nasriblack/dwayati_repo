@@ -9,31 +9,56 @@ import {
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Plus, Clock, Tag } from 'lucide-react-native';
-import { useMedicationsList } from '../../api/medications';
+import { useAddMedication, useMedicationsList } from '../../api/medications';
 import { getExpirationColor } from '../../utils/getExpirationColor';
+import { Modal } from '../../components/Modal';
+import { FormField, SubmitButton } from '../../components/Form';
+import { useState } from 'react';
+import { useForm } from 'react-hook-form';
 
 export default function MedicationsScreen() {
-  const { data, isLoading } = useMedicationsList();
+  const { data: MedicationData, isLoading: isLoadingMedications } =
+    useMedicationsList();
 
-  console.log('checking the medication', data);
+  const { mutateAsync } = useAddMedication();
 
+  console.log('checking the medication', MedicationData);
+  const [modalVisible, setModalVisible] = useState(false);
+  const { control, handleSubmit, reset } = useForm({
+    defaultValues: {
+      name: '',
+      description: '',
+      tag: '',
+      expirationDate: '2021-03-25T00:00:00.000Z',
+      prescription: [],
+    },
+  });
+  const onSubmit = (data: any) => {
+    console.log(data);
+    mutateAsync(data);
+    setModalVisible(false);
+    reset();
+  };
   return (
     <LinearGradient colors={['#1a1b1e', '#2d2e32']} style={styles.container}>
       <View style={styles.header}>
         <Text style={styles.title}>My Medications</Text>
-        <TouchableOpacity style={styles.addButton}>
+        <TouchableOpacity
+          onPress={() => setModalVisible(true)}
+          style={styles.addButton}
+        >
           <Plus color="#fff" size={24} />
         </TouchableOpacity>
       </View>
 
-      {isLoading ? (
+      {isLoadingMedications ? (
         <>
           <ActivityIndicator size="large" color="#2d2e32" />
         </>
       ) : (
         <>
           <ScrollView style={styles.content}>
-            {data?.map((medicament) => (
+            {MedicationData?.map((medicament) => (
               <View style={styles.section} key={medicament.id}>
                 <View style={styles.medicationCard}>
                   <View
@@ -66,6 +91,37 @@ export default function MedicationsScreen() {
           </ScrollView>
         </>
       )}
+      <Modal visible={modalVisible} onClose={() => setModalVisible(false)}>
+        <View>
+          <Text style={styles.modalTitle}>Add New Medication</Text>
+          <FormField
+            control={control}
+            name="name"
+            label="Medication Name"
+            placeholder="Enter medication name"
+            rules={{ required: 'Medication name is required' }}
+          />
+          <FormField
+            control={control}
+            name="description"
+            label="Description"
+            placeholder="Enter the description of this medicament"
+            rules={{ required: 'Description is required' }}
+          />
+          <FormField
+            control={control}
+            name="tag"
+            label="Tag"
+            placeholder="Seperate the tag with space"
+            rules={{ required: 'Tag is required' }}
+          />
+
+          <SubmitButton
+            title="Add Medication"
+            onPress={handleSubmit(onSubmit)}
+          />
+        </View>
+      </Modal>
     </LinearGradient>
   );
 }
@@ -156,5 +212,12 @@ const styles = StyleSheet.create({
     padding: 9,
     borderColor: 'white',
     borderRadius: 10,
+  },
+  modalTitle: {
+    fontSize: 24,
+    fontFamily: 'Inter_600SemiBold',
+    color: '#fff',
+    marginBottom: 24,
+    textAlign: 'center',
   },
 });

@@ -9,32 +9,61 @@ import {
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Plus, Calendar, Pill } from 'lucide-react-native';
-import { usePrescriptionsList } from '../../api/prescriptions';
+import {
+  useAddPrescription,
+  usePrescriptionsList,
+} from '../../api/prescriptions';
 import { formatDate } from '../../utils/formatDateFunction';
+import { useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { Modal } from '../../components/Modal';
+import { FormField, FormSelect, SubmitButton } from '../../components/Form';
+import { useMedicationsList } from '../../api/medications';
 
 export default function PrescriptionsScreen() {
-  const { data, isError, isLoading } = usePrescriptionsList();
+  const [modalVisible, setModalVisible] = useState(false);
+  const { control, handleSubmit, reset } = useForm({
+    defaultValues: {
+      doctorName: '',
+      description: '',
+      medications: [],
+    },
+  });
+  const { mutateAsync } = useAddPrescription();
+
+  const onSubmit = (data: any) => {
+    console.log(data);
+    mutateAsync(data);
+    setModalVisible(false);
+    reset();
+  };
+  const {
+    data: PrescriptionsData,
+    isError: isErrorPrescriptions,
+    isLoading: isLoadingPrescriptions,
+  } = usePrescriptionsList();
+  const { data: MedicationsData } = useMedicationsList();
   return (
     <LinearGradient colors={['#1a1b1e', '#2d2e32']} style={styles.container}>
       <View style={styles.header}>
         <Text style={styles.title}>Prescriptions</Text>
         <TouchableOpacity style={styles.addButton}>
-          <Plus color="#fff" size={24} />
+          <Plus onPress={() => setModalVisible(true)} color="#fff" size={24} />
         </TouchableOpacity>
       </View>
 
-      {isLoading ? (
+      {isLoadingPrescriptions ? (
         <>
           <ActivityIndicator size="large" color="#2d2e32" />
         </>
       ) : (
         <>
-          {isError ? (
+          {isErrorPrescriptions ? (
             <>something went wrongs</>
           ) : (
             <>
               <ScrollView style={styles.content}>
-                {data?.map((index) => (
+                {PrescriptionsData?.map((index) => (
                   <TouchableOpacity
                     key={index.id}
                     style={styles.prescriptionCard}
@@ -69,6 +98,43 @@ export default function PrescriptionsScreen() {
           )}
         </>
       )}
+      <Modal visible={modalVisible} onClose={() => setModalVisible(false)}>
+        <View>
+          <Text style={styles.modalTitle}>Add New Prescription</Text>
+          <FormField
+            control={control}
+            name="doctorName"
+            label="Doctor's Name"
+            placeholder="Enter doctor's name"
+            rules={{ required: "Doctor's name is required" }}
+          />
+          <FormField
+            control={control}
+            name="description"
+            label="Diagnosis"
+            placeholder="Enter diagnosis"
+            rules={{ required: 'Diagnosis is required' }}
+          />
+          {/* <FormField
+            control={control}
+            name="date"
+            label="Prescription Date"
+            placeholder="Enter date (MM/DD/YYYY)"
+            rules={{ required: 'Date is required' }}
+          /> */}
+          <FormSelect
+            control={control}
+            name="medications"
+            label="Prescribed Medications"
+            options={MedicationsData}
+            // rules={{ required: 'At least one medication is required' }}
+          />
+          <SubmitButton
+            title="Add Prescription"
+            onPress={handleSubmit(onSubmit)}
+          />
+        </View>
+      </Modal>
     </LinearGradient>
   );
 }
@@ -157,5 +223,12 @@ const styles = StyleSheet.create({
     display: 'flex',
     alignItems: 'center',
     gap: 10,
+  },
+  modalTitle: {
+    fontSize: 24,
+    fontFamily: 'Inter_600SemiBold',
+    color: '#fff',
+    marginBottom: 24,
+    textAlign: 'center',
   },
 });
