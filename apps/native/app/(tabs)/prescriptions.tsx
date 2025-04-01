@@ -13,9 +13,7 @@ import { usePrescriptionsList } from '../../api/prescriptions';
 import { formatDate } from '../../utils/formatDateFunction';
 
 export default function PrescriptionsScreen() {
-  const { data, isError, error, isLoading } = usePrescriptionsList();
-  console.log('checkign the error', isError);
-  console.log('checking the data', data);
+  const { data, isError, isLoading } = usePrescriptionsList();
   return (
     <LinearGradient colors={['#1a1b1e', '#2d2e32']} style={styles.container}>
       <View style={styles.header}>

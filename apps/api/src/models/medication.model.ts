@@ -1,9 +1,9 @@
 export interface IMedication {
   id: string;
   description: string | null;
-  expirationDate: Date;
+  expirationDate: Date | string;
   tag: string | null;
-  name:string;
+  name: string;
   prescription: {
     doctorName: string;
     description: string;
