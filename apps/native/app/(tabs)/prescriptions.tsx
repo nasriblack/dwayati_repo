@@ -13,7 +13,8 @@ import { usePrescriptionsList } from '../../api/prescriptions';
 import { formatDate } from '../../utils/formatDateFunction';
 
 export default function PrescriptionsScreen() {
-  const { data, error, isLoading } = usePrescriptionsList();
+  const { data, isError, error, isLoading } = usePrescriptionsList();
+  console.log('checkign the error', isError);
   console.log('checking the data', data);
   return (
     <LinearGradient colors={['#1a1b1e', '#2d2e32']} style={styles.container}>
@@ -30,35 +31,44 @@ export default function PrescriptionsScreen() {
         </>
       ) : (
         <>
-          <ScrollView style={styles.content}>
-            {data?.map((index) => (
-              <TouchableOpacity key={index.id} style={styles.prescriptionCard}>
-                <View style={styles.prescriptionHeader}>
-                  <View style={styles.dateContainer}>
-                    <Calendar color="#fff" size={20} />
-                    <Text style={styles.date}>
-                      {formatDate(index?.createdAt as string)}
-                    </Text>
-                  </View>
-                  <View style={styles.statusBadge}>
-                    <Text style={styles.statusText}>Active</Text>
-                  </View>
-                </View>
-                <Text style={styles.doctorName}>{index.doctorName}</Text>
-                <Text style={styles.diagnosis}>{index.description}</Text>
-                <View style={styles.medicationList}>
-                  {index?.medications.map((medicament) => (
-                    <Text key={medicament.id} style={styles.medicationItem}>
-                      <>
-                        <Pill size={15} color={'#666'} />
-                        {medicament.name}
-                      </>
-                    </Text>
-                  ))}
-                </View>
-              </TouchableOpacity>
-            ))}
-          </ScrollView>
+          {isError ? (
+            <>something went wrongs</>
+          ) : (
+            <>
+              <ScrollView style={styles.content}>
+                {data?.map((index) => (
+                  <TouchableOpacity
+                    key={index.id}
+                    style={styles.prescriptionCard}
+                  >
+                    <View style={styles.prescriptionHeader}>
+                      <View style={styles.dateContainer}>
+                        <Calendar color="#fff" size={20} />
+                        <Text style={styles.date}>
+                          {formatDate(index?.createdAt as string)}
+                        </Text>
+                      </View>
+                      <View style={styles.statusBadge}>
+                        <Text style={styles.statusText}>Active</Text>
+                      </View>
+                    </View>
+                    <Text style={styles.doctorName}>{index.doctorName}</Text>
+                    <Text style={styles.diagnosis}>{index.description}</Text>
+                    <View style={styles.medicationList}>
+                      {index?.medications.map((medicament) => (
+                        <Text key={medicament.id} style={styles.medicationItem}>
+                          <>
+                            <Pill size={15} color={'#666'} />
+                            {medicament.name}
+                          </>
+                        </Text>
+                      ))}
+                    </View>
+                  </TouchableOpacity>
+                ))}
+              </ScrollView>
+            </>
+          )}
         </>
       )}
     </LinearGradient>
