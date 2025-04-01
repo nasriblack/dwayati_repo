@@ -1,3 +1,5 @@
+/* eslint-disable react/no-unstable-nested-components */
+/* eslint-disable react/react-in-jsx-scope */
 import { Tabs } from 'expo-router';
 import { Pill, ClipboardList, Search, User } from 'lucide-react-native';
 import { LinearGradient } from 'expo-linear-gradient';

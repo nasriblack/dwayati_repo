@@ -1,14 +1,20 @@
+/* eslint-disable react/react-in-jsx-scope */
 import {
   View,
   Text,
   ScrollView,
   TouchableOpacity,
   StyleSheet,
+  ActivityIndicator,
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
-import { Plus, Calendar } from 'lucide-react-native';
+import { Plus, Calendar, Pill } from 'lucide-react-native';
+import { usePrescriptionsList } from '../../api/prescriptions';
+import { formatDate } from '../../utils/formatDateFunction';
 
 export default function PrescriptionsScreen() {
+  const { data, error, isLoading } = usePrescriptionsList();
+  console.log('checking the data', data);
   return (
     <LinearGradient colors={['#1a1b1e', '#2d2e32']} style={styles.container}>
       <View style={styles.header}>
@@ -18,28 +24,43 @@ export default function PrescriptionsScreen() {
         </TouchableOpacity>
       </View>
 
-      <ScrollView style={styles.content}>
-        {[1, 2, 3, 4, 5, 6, 7].map((index) => (
-          <TouchableOpacity key={index} style={styles.prescriptionCard}>
-            <View style={styles.prescriptionHeader}>
-              <View style={styles.dateContainer}>
-                <Calendar color="#fff" size={20} />
-                <Text style={styles.date}>Mar {index + 14}, 2024</Text>
-              </View>
-              <View style={styles.statusBadge}>
-                <Text style={styles.statusText}>Active</Text>
-              </View>
-            </View>
-            <Text style={styles.doctorName}>Dr. Sarah Johnson</Text>
-            <Text style={styles.diagnosis}>Upper Respiratory Infection</Text>
-            <View style={styles.medicationList}>
-              <Text style={styles.medicationItem}>• Amoxicillin 500mg</Text>
-              <Text style={styles.medicationItem}>• Ibuprofen 400mg</Text>
-              <Text style={styles.medicationItem}>• Cetirizine 10mg</Text>
-            </View>
-          </TouchableOpacity>
-        ))}
-      </ScrollView>
+      {isLoading ? (
+        <>
+          <ActivityIndicator size="large" color="#2d2e32" />
+        </>
+      ) : (
+        <>
+          <ScrollView style={styles.content}>
+            {data?.map((index) => (
+              <TouchableOpacity key={index.id} style={styles.prescriptionCard}>
+                <View style={styles.prescriptionHeader}>
+                  <View style={styles.dateContainer}>
+                    <Calendar color="#fff" size={20} />
+                    <Text style={styles.date}>
+                      {formatDate(index?.createdAt as string)}
+                    </Text>
+                  </View>
+                  <View style={styles.statusBadge}>
+                    <Text style={styles.statusText}>Active</Text>
+                  </View>
+                </View>
+                <Text style={styles.doctorName}>{index.doctorName}</Text>
+                <Text style={styles.diagnosis}>{index.description}</Text>
+                <View style={styles.medicationList}>
+                  {index?.medications.map((medicament) => (
+                    <Text key={medicament.id} style={styles.medicationItem}>
+                      <>
+                        <Pill size={15} color={'#666'} />
+                        {medicament.name}
+                      </>
+                    </Text>
+                  ))}
+                </View>
+              </TouchableOpacity>
+            ))}
+          </ScrollView>
+        </>
+      )}
     </LinearGradient>
   );
 }
@@ -125,5 +146,8 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontFamily: 'Inter_400Regular',
     marginBottom: 4,
+    display: 'flex',
+    alignItems: 'center',
+    gap: 10,
   },
 });

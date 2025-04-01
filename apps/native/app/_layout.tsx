@@ -1,5 +1,7 @@
 import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
+import QueryProvider from '../store/QueryProvider';
+
 import {
   useFonts,
   Inter_400Regular,
@@ -20,12 +22,12 @@ const AppLayout = () => {
     return null;
   }
   return (
-    <>
+    <QueryProvider>
       <Stack screenOptions={{ headerShown: false }}>
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
       </Stack>
       <StatusBar style="light" />
-    </>
+    </QueryProvider>
   );
 };
 

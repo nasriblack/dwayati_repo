@@ -2,7 +2,7 @@ export interface TListPrescription {
   id: string;
   doctorName: string;
   description: string;
-  createdAt: Date;
+  createdAt: Date | string;
   medications: {
     id: string;
     description: string | null;
