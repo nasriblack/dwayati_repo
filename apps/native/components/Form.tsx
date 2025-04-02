@@ -7,6 +7,8 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import { Controller } from 'react-hook-form';
+import { format, isValid, parse } from 'date-fns';
+import { useState } from 'react';
 
 export const FormField = ({
   control,
@@ -19,21 +21,75 @@ export const FormField = ({
     control={control}
     name={name}
     rules={rules}
-    render={({ field: { onChange, value }, fieldState: { error } }) => (
-      <View style={styles.fieldContainer}>
-        <Text style={styles.label}>{label}</Text>
-        <TextInput
-          style={[styles.input, error && styles.inputError]}
-          onChangeText={onChange}
-          value={value}
-          placeholderTextColor="#666"
-          {...props}
-        />
-        {error && <Text style={styles.errorText}>{error.message}</Text>}
-      </View>
-    )}
+    render={({ field: { onChange, value }, fieldState: { error } }) => {
+      return (
+        <View style={styles.fieldContainer}>
+          <Text style={styles.label}>{label}</Text>
+          <TextInput
+            style={[styles.input, error && styles.inputError]}
+            onChangeText={onChange}
+            value={value}
+            placeholderTextColor="#666"
+            {...props}
+          />
+          {error && <Text style={styles.errorText}>{error.message}</Text>}
+        </View>
+      );
+    }}
   />
 );
+
+export const FormDateField = ({ control, name, label, rules = {} }: any) => {
+  const [inputValue, setInputValue] = useState('');
+  return (
+    <Controller
+      control={control}
+      name={name}
+      rules={rules}
+      render={({ field: { onChange, value }, fieldState: { error } }) => {
+        // Format the date for display when there's a valid value
+        const displayValue = value
+          ? format(new Date(value), 'yyyy-MM-dd')
+          : inputValue;
+
+        const handleDateChange = (text: string) => {
+          setInputValue(text);
+
+          // Validate date format (YYYY-MM-DD)
+          const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
+
+          if (dateRegex.test(text)) {
+            const parsedDate = parse(text, 'yyyy-MM-dd', new Date());
+
+            // Check if the date is valid
+            if (isValid(parsedDate)) {
+              // Set time to midnight and store as ISO string
+              parsedDate.setHours(0, 0, 0, 0);
+              onChange(parsedDate.toISOString());
+            }
+          } else if (text === '') {
+            // Handle empty input
+            onChange(null);
+          }
+        };
+
+        return (
+          <View style={styles.fieldContainer}>
+            <Text style={styles.label}>{label}</Text>
+            <TextInput
+              style={[styles.input, error && styles.inputError]}
+              value={displayValue}
+              onChangeText={handleDateChange}
+              placeholder="YYYY-MM-DD"
+              placeholderTextColor="#666"
+            />
+            {error && <Text style={styles.errorText}>{error.message}</Text>}
+          </View>
+        );
+      }}
+    />
+  );
+};
 
 export const FormSelect = ({
   control,
@@ -46,36 +102,33 @@ export const FormSelect = ({
     control={control}
     name={name}
     rules={rules}
-    render={({ field: { onChange, value }, fieldState: { error } }) => {
-      console.log('checking the options', options);
-      return (
-        <View style={styles.fieldContainer}>
-          <Text style={styles.label}>{label}</Text>
-          <View style={styles.selectContainer}>
-            {options.map((option: any) => (
-              <TouchableOpacity
-                key={option.id}
+    render={({ field: { onChange, value }, fieldState: { error } }) => (
+      <View style={styles.fieldContainer}>
+        <Text style={styles.label}>{label}</Text>
+        <View style={styles.selectContainer}>
+          {options.map((option: any) => (
+            <TouchableOpacity
+              key={option.id}
+              style={[
+                styles.selectOption,
+                value === option.id && styles.selectOptionSelected,
+              ]}
+              onPress={() => onChange(option.id)}
+            >
+              <Text
                 style={[
-                  styles.selectOption,
-                  value === option.id && styles.selectOptionSelected,
+                  styles.selectOptionText,
+                  value === option.id && styles.selectOptionTextSelected,
                 ]}
-                onPress={() => onChange(option.id)}
               >
-                <Text
-                  style={[
-                    styles.selectOptionText,
-                    value === option.id && styles.selectOptionTextSelected,
-                  ]}
-                >
-                  {option.description}
-                </Text>
-              </TouchableOpacity>
-            ))}
-          </View>
-          {error && <Text style={styles.errorText}>{error.message}</Text>}
+                {option.label}
+              </Text>
+            </TouchableOpacity>
+          ))}
         </View>
-      );
-    }}
+        {error && <Text style={styles.errorText}>{error.message}</Text>}
+      </View>
+    )}
   />
 );
 
@@ -108,6 +161,9 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontFamily: 'Inter_400Regular',
     fontSize: 16,
+  },
+  dateInputContainer: {
+    width: '100%',
   },
   inputError: {
     borderColor: '#e2574a',

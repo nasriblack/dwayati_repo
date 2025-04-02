@@ -12,7 +12,7 @@ import { Plus, Clock, Tag } from 'lucide-react-native';
 import { useAddMedication, useMedicationsList } from '../../api/medications';
 import { getExpirationColor } from '../../utils/getExpirationColor';
 import { Modal } from '../../components/Modal';
-import { FormField, SubmitButton } from '../../components/Form';
+import { FormDateField, FormField, SubmitButton } from '../../components/Form';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
@@ -29,7 +29,7 @@ export default function MedicationsScreen() {
       name: '',
       description: '',
       tag: '',
-      expirationDate: '2021-03-25T00:00:00.000Z',
+      expirationDate: '',
       prescription: [],
     },
   });
@@ -114,6 +114,14 @@ export default function MedicationsScreen() {
             label="Tag"
             placeholder="Seperate the tag with space"
             rules={{ required: 'Tag is required' }}
+          />
+          <FormDateField
+            control={control}
+            name="expirationDate"
+            label="Expiration Date"
+            rules={{
+              required: 'Expiration date must be YYYY-MM-DD',
+            }}
           />
 
           <SubmitButton
