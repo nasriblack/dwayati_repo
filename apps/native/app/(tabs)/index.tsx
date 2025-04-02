@@ -79,7 +79,7 @@ export default function MedicationsScreen() {
                     <View style={styles.tagName}>
                       {medicament.tag?.split(' ').map((tag, index) => (
                         <Text style={styles.textTag} key={index}>
-                          <Tag color="#fff" size={15} />
+                          <Tag color="#c9c8c8" size={15} />
                           {tag}
                         </Text>
                       ))}
@@ -211,6 +211,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     padding: 9,
     borderColor: 'white',
+    color: 'white',
     borderRadius: 10,
   },
   modalTitle: {
