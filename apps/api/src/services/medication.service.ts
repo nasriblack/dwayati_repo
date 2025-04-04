@@ -17,6 +17,9 @@ export const listMedications = async (): Promise<IMedication[]> => {
         },
       },
     },
+    orderBy: {
+      expirationDate: "desc",
+    },
   });
 };
 

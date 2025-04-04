@@ -20,6 +20,9 @@ export const listPrescription = async (): Promise<TListPrescription[]> => {
         },
       },
     },
+    orderBy: {
+      createdAt: "desc",
+    },
   });
 };
 
