@@ -56,8 +56,11 @@ export default function PrescriptionsScreen() {
     <LinearGradient colors={['#1a1b1e', '#2d2e32']} style={styles.container}>
       <View style={styles.header}>
         <Text style={styles.title}>Prescriptions</Text>
-        <TouchableOpacity style={styles.addButton}>
-          <Plus onPress={() => setModalVisible(true)} color="#fff" size={24} />
+        <TouchableOpacity
+          onPress={() => setModalVisible(true)}
+          style={styles.addButton}
+        >
+          <Plus color="#fff" size={24} />
         </TouchableOpacity>
       </View>
 
@@ -124,20 +127,13 @@ export default function PrescriptionsScreen() {
             placeholder="Enter diagnosis"
             rules={{ required: 'Diagnosis is required' }}
           />
-          {/* <FormField
-            control={control}
-            name="date"
-            label="Prescription Date"
-            placeholder="Enter date (MM/DD/YYYY)"
-            rules={{ required: 'Date is required' }}
-          /> */}
+
           <FormSelect
             control={control}
             name="medications"
             label="Prescribed Medications"
             options={MedicationsData}
             medicationsArray={medicationsArray}
-            // rules={{ required: 'At least one medication is required' }}
           />
           <SubmitButton
             title="Add Prescription"
