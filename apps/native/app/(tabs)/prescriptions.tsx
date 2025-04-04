@@ -19,6 +19,10 @@ import { useForm } from 'react-hook-form';
 import { Modal } from '../../components/Modal';
 import { FormField, FormSelect, SubmitButton } from '../../components/Form';
 import { useMedicationsList } from '../../api/medications';
+import {
+  getExpirationColor,
+  isExpiredMedicament,
+} from '../../utils/getExpirationColor';
 
 export default function PrescriptionsScreen() {
   const [modalVisible, setModalVisible] = useState(false);
@@ -52,6 +56,13 @@ export default function PrescriptionsScreen() {
     isLoading: isLoadingPrescriptions,
   } = usePrescriptionsList();
   const { data: MedicationsData } = useMedicationsList();
+
+  const notExpirationMedication = MedicationsData?.filter(
+    (item) => !isExpiredMedicament(item.expirationDate as string),
+  );
+
+  console.log('notExpirationMedication', notExpirationMedication);
+
   return (
     <LinearGradient colors={['#1a1b1e', '#2d2e32']} style={styles.container}>
       <View style={styles.header}>
@@ -97,7 +108,12 @@ export default function PrescriptionsScreen() {
                       {index?.medications.map((medicament) => (
                         <Text key={medicament.id} style={styles.medicationItem}>
                           <>
-                            <Pill size={15} color={'#666'} />
+                            <Pill
+                              size={15}
+                              color={getExpirationColor(
+                                medicament.expirationDate as string,
+                              )}
+                            />
                             {medicament.name}
                           </>
                         </Text>
@@ -132,7 +148,7 @@ export default function PrescriptionsScreen() {
             control={control}
             name="medications"
             label="Prescribed Medications"
-            options={MedicationsData}
+            options={notExpirationMedication}
             medicationsArray={medicationsArray}
           />
           <SubmitButton
