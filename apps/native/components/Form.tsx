@@ -96,39 +96,61 @@ export const FormSelect = ({
   name,
   label,
   options,
+  medicationsArray,
   rules = {},
 }: any) => (
   <Controller
     control={control}
     name={name}
     rules={rules}
-    render={({ field: { onChange, value }, fieldState: { error } }) => (
-      <View style={styles.fieldContainer}>
-        <Text style={styles.label}>{label}</Text>
-        <View style={styles.selectContainer}>
-          {options.map((option: any) => (
-            <TouchableOpacity
-              key={option.id}
-              style={[
-                styles.selectOption,
-                value === option.id && styles.selectOptionSelected,
-              ]}
-              onPress={() => onChange(option.id)}
-            >
-              <Text
-                style={[
-                  styles.selectOptionText,
-                  value === option.id && styles.selectOptionTextSelected,
-                ]}
-              >
-                {option.label}
-              </Text>
-            </TouchableOpacity>
-          ))}
+    render={({ field: { onChange, value }, fieldState: { error } }) => {
+      return (
+        <View style={styles.fieldContainer}>
+          <Text style={styles.label}>{label}</Text>
+          <View style={styles.selectContainer}>
+            {options.map((option: any) => {
+              const meddicationsState: any[] = medicationsArray;
+              return (
+                <TouchableOpacity
+                  key={option.id}
+                  style={[
+                    styles.selectOption,
+                    value.some((item: any) => item.id === option.id) &&
+                      styles.selectOptionSelected,
+                    // value.id === option.id ,
+                  ]}
+                  onPress={() => {
+                    const indexMedication = meddicationsState.findIndex(
+                      (item) => item.id === option.id,
+                    );
+                    if (indexMedication !== -1) {
+                      const medicationFiltred = meddicationsState.filter(
+                        (item) => item.id !== option.id,
+                      );
+
+                      onChange(medicationFiltred);
+                    } else {
+                      meddicationsState.push({ id: option.id });
+                      onChange(meddicationsState);
+                    }
+                  }}
+                >
+                  <Text
+                    style={[
+                      styles.selectOptionText,
+                      value === option.id && styles.selectOptionTextSelected,
+                    ]}
+                  >
+                    {option.name}
+                  </Text>
+                </TouchableOpacity>
+              );
+            })}
+          </View>
+          {error && <Text style={styles.errorText}>{error.message}</Text>}
         </View>
-        {error && <Text style={styles.errorText}>{error.message}</Text>}
-      </View>
-    )}
+      );
+    }}
   />
 );
 

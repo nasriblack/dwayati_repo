@@ -14,7 +14,7 @@ import {
   usePrescriptionsList,
 } from '../../api/prescriptions';
 import { formatDate } from '../../utils/formatDateFunction';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Modal } from '../../components/Modal';
 import { FormField, FormSelect, SubmitButton } from '../../components/Form';
@@ -22,17 +22,26 @@ import { useMedicationsList } from '../../api/medications';
 
 export default function PrescriptionsScreen() {
   const [modalVisible, setModalVisible] = useState(false);
-  const { control, handleSubmit, reset } = useForm({
+  const { control, handleSubmit, reset, watch } = useForm({
     defaultValues: {
       doctorName: '',
       description: '',
       medications: [],
     },
   });
+
+  const [medicationsArray, setmedicationsArray] = useState<any>([]);
+
+  useEffect(() => {
+    const { unsubscribe } = watch((value) => {
+      setmedicationsArray(value.medications);
+    });
+    return () => unsubscribe();
+  }, [watch]);
+
   const { mutateAsync } = useAddPrescription();
 
   const onSubmit = (data: any) => {
-    console.log(data);
     mutateAsync(data);
     setModalVisible(false);
     reset();
@@ -127,6 +136,7 @@ export default function PrescriptionsScreen() {
             name="medications"
             label="Prescribed Medications"
             options={MedicationsData}
+            medicationsArray={medicationsArray}
             // rules={{ required: 'At least one medication is required' }}
           />
           <SubmitButton

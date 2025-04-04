@@ -22,7 +22,6 @@ export default function MedicationsScreen() {
 
   const { mutateAsync } = useAddMedication();
 
-  console.log('checking the medication', MedicationData);
   const [modalVisible, setModalVisible] = useState(false);
   const { control, handleSubmit, reset } = useForm({
     defaultValues: {
@@ -34,7 +33,6 @@ export default function MedicationsScreen() {
     },
   });
   const onSubmit = (data: any) => {
-    console.log(data);
     mutateAsync(data);
     setModalVisible(false);
     reset();
