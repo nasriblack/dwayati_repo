@@ -8,6 +8,7 @@ export const endPoint = {
     ALL_MEDICATIONS: "/all-medications",
     CREATE_MEDICATION: "/medication",
     UPDATE_MEDICATION: "/medication/:id",
+    SEARCH_MEDICATION: "/medications/:medicationName",
   },
   otherEndPoint: {
     CHECK_STATUS_TEST: "/status",

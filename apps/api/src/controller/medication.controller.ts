@@ -21,6 +21,22 @@ export const listMedication = async (
   }
 };
 
+export const searchMedicationController = async (
+  request: Request,
+  response: Response,
+  next: NextFunction
+): Promise<any> => {
+  try {
+    const medicationName = request.params.medicationName;
+    console.log("checking the id", medicationName);
+    const medications =
+      await medicationService.searchMedication(medicationName);
+    return sendSuccessResponse(response, medications);
+  } catch (error) {
+    next(error);
+  }
+};
+
 export const createMedication = async (
   request: Request,
   response: Response,

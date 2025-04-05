@@ -8,6 +8,10 @@ medciationRouter.get(
   endPoint.medicationEndPoint.ALL_MEDICATIONS,
   medicationController.listMedication
 );
+medciationRouter.get(
+  endPoint.medicationEndPoint.SEARCH_MEDICATION,
+  medicationController.searchMedicationController
+);
 medciationRouter.post(
   endPoint.medicationEndPoint.CREATE_MEDICATION,
   medicationController.checkExistingMedication,

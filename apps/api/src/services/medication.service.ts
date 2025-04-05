@@ -23,6 +23,33 @@ export const listMedications = async (): Promise<IMedication[]> => {
   });
 };
 
+export const searchMedication = async (
+  searchableName: string
+): Promise<IMedication[] | null> => {
+  return prismaClient.medication.findMany({
+    where: {
+      name: searchableName,
+    },
+    select: {
+      id: true,
+      description: true,
+      expirationDate: true,
+      tag: true,
+      name: true,
+      prescription: {
+        select: {
+          createdAt: true,
+          description: true,
+          doctorName: true,
+        },
+      },
+    },
+    orderBy: {
+      expirationDate: "desc",
+    },
+  });
+};
+
 export const createMedication = async (
   medication: any
 ): Promise<IMedication> => {
