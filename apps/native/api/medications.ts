@@ -16,6 +16,18 @@ export const useMedicationsList = () => {
     },
   });
 };
+export const useSearchMedication = () => {
+  return useQuery({
+    queryKey: ['MedicationSearch'],
+    queryFn: async () => {
+      const { data } = await axios.request<TMedicationsResponse>({
+        baseURL: `${ENDPOINT_URL}${apiVersion}${endPoint.medicationEndPoint.SEARCH_MEDICATION}`,
+        method: 'GET',
+      });
+      return data.data;
+    },
+  });
+};
 
 export const useAddMedication = () => {
   const queryClient = useQueryClient();

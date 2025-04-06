@@ -7,13 +7,23 @@ import {
   ScrollView,
   TouchableOpacity,
   StyleSheet,
+  ActivityIndicator,
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Search as SearchIcon, Pill, ClipboardList } from 'lucide-react-native';
+import { useMedicationsList } from '../../api/medications';
+import { usePrescriptionsList } from '../../api/prescriptions';
+import MedicationComponent from '../../components/MedicationComponent';
+import PrescriptionComponent from '../../components/PrescriptionComponent';
 
 export default function SearchScreen() {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedItem, setSelectedItem] = useState('medications');
+
+  const { data: PrescriptionsData, isLoading: isLoadingPrescription } =
+    usePrescriptionsList();
+  const { data: MedicationsData, isLoading: isLoadingMedication } =
+    useMedicationsList();
 
   const itemsTab = [
     {
@@ -25,6 +35,15 @@ export default function SearchScreen() {
       icon: <ClipboardList size={20} color="#fff" />,
     },
   ];
+
+  const medicationQueryData = MedicationsData?.filter((medicament) =>
+    searchQuery !== '' ? medicament.name.includes(searchQuery) : [],
+  );
+
+  console.log(medicationQueryData);
+  const prescriptionQueryData = PrescriptionsData?.filter((prescription) =>
+    prescription.description?.includes(searchQuery),
+  );
 
   return (
     <LinearGradient colors={['#1a1b1e', '#2d2e32']} style={styles.container}>
@@ -47,6 +66,7 @@ export default function SearchScreen() {
         {itemsTab.map((item) => {
           const isTabActive = selectedItem === item.tabName;
           //TODO: MAKE A FUNCTION THAT RETURN THE ICON BASED ON THE TAB NAME !
+          console.log('checking the selectedItem', selectedItem);
           return (
             <TouchableOpacity
               style={
@@ -74,15 +94,27 @@ export default function SearchScreen() {
         })}
       </View>
 
-      <ScrollView style={styles.content}>
-        <Text style={styles.resultHeader}>Recent Searches</Text>
-        {['Ibuprofen', 'Amoxicillin', 'Allergy Medicine'].map((item, index) => (
-          <TouchableOpacity key={index} style={styles.resultItem}>
-            <Pill size={20} color="#666" />
-            <Text style={styles.resultText}>{item}</Text>
-          </TouchableOpacity>
-        ))}
-      </ScrollView>
+      {isLoadingMedication && isLoadingPrescription ? (
+        <>
+          <ActivityIndicator size="large" color="#2d2e32" />
+        </>
+      ) : (
+        <>
+          {selectedItem === 'medications' ? (
+            <>
+              <ScrollView style={styles.content}>
+                <MedicationComponent medications={medicationQueryData} />
+              </ScrollView>
+            </>
+          ) : (
+            <>
+              <ScrollView style={styles.content}>
+                <PrescriptionComponent prescription={prescriptionQueryData} />
+              </ScrollView>
+            </>
+          )}
+        </>
+      )}
     </LinearGradient>
   );
 }
@@ -154,18 +186,5 @@ const styles = StyleSheet.create({
     fontFamily: 'Inter_600SemiBold',
     color: '#fff',
     marginBottom: 16,
-  },
-  resultItem: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingVertical: 12,
-    borderBottomWidth: 1,
-    borderBottomColor: 'rgba(255, 255, 255, 0.1)',
-  },
-  resultText: {
-    marginLeft: 12,
-    fontSize: 16,
-    color: '#fff',
-    fontFamily: 'Inter_400Regular',
   },
 });
